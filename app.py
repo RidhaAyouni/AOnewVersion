@@ -3,7 +3,7 @@ import pandas as pd
 import sqlite3
 from database import create_connection
 from update import update_appels 
-from importdb import insert_bank
+from importdb import insert_bank , delete_bank
 
 database_path = 'banks_appel_doffre.db'
 # Add the form to the Streamlit app
@@ -23,7 +23,20 @@ with st.form("add_new_link_form"):
         else:
             st.error("Please provide both the bank name and the link.")
 
+with st.form("delete_bank_form"):
+    st.write("Delete a Bank")
+    conn = create_connection(database_path)
+    df_banks = pd.read_sql_query("SELECT id, name FROM banks", conn)
+    conn.close()
+    bank_options = df_banks.set_index('id')['name'].to_dict()
+    selected_bank_id = st.selectbox("Select Bank to Delete", list(bank_options.keys()), format_func=lambda x: bank_options[x])
+    delete_button = st.form_submit_button(label='Delete Selected Bank')
 
+    if delete_button:
+        conn = create_connection(database_path)
+        with conn:
+            delete_bank(conn, selected_bank_id)
+        st.success(f"Deleted Bank ID: {selected_bank_id}")
 # def fetch_appels_data():
 #     """
 #     Fetch the latest appel d'offre data from the database.

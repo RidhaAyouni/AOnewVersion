@@ -70,7 +70,16 @@ def import_banks(bank_data):
                     insert_bank(conn, bank)
     else:
         print("Error! cannot create the database connection.")
-
+def delete_bank(conn, bank_id):
+    """
+    Delete a bank from the banks table
+    :param conn: Connection object
+    :param bank_id: ID of the bank to be deleted
+    """
+    sql = ''' DELETE FROM banks WHERE id = ? '''
+    cur = conn.cursor()
+    cur.execute(sql, (bank_id,))
+    conn.commit()
 # Execute the import function
 if __name__ == "__main__":
     import_banks(BANK_DATA)
