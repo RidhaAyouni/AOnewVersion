@@ -84,7 +84,7 @@ from update import update_appels
 from importdb import insert_bank, delete_bank
 
 database_path = 'banks_appel_doffre.db'
-st.title('Add new Bank')
+st.title('Add new Link')
 # Add the form to the Streamlit app
 with st.form("add_new_link_form"):
     st.write("Add a New Bank and Link")
@@ -129,7 +129,7 @@ if not df.empty:
 else:
     st.write('No data available.')
 
-st.title('Delete Bank')
+st.title('Delete Link')
 with st.form("delete_bank_form"):
     st.write("Delete a Bank")
     conn = create_connection(database_path)
