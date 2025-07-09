@@ -1,7 +1,6 @@
 import sqlite3
 from sqlite3 import Error
 
-# Define the path for the SQLite database
 database_path = 'banks_appel_doffre.db'
 
 def create_connection(db_file):
@@ -22,12 +21,17 @@ def create_table(conn, create_table_sql):
     except Error as e:
         print(e)
 
-# SQL statements for creating the necessary tables
 sql_create_banks_table = """
 CREATE TABLE IF NOT EXISTS banks (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     url TEXT NOT NULL
+);
+"""
+sql_create_domain_keywords_table = """
+CREATE TABLE IF NOT EXISTS keywords (
+    id INTEGER PRIMARY KEY,
+    keyword TEXT NOT NULL,
 );
 """
 
@@ -43,10 +47,8 @@ CREATE TABLE IF NOT EXISTS appels (
 );
 """
 
-# Create a database connection and create tables
 conn = create_connection(database_path)
 
-# Create tables
 if conn is not None:
     create_table(conn, sql_create_banks_table)
     create_table(conn, sql_create_appels_table)
